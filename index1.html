@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Converter</title>
+    <style>
+        body {
+            background-color: #ff9100;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 400px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+        button {
+            background-color: #0d5f15;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0b4c11;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Binary Converter</h2>
+        <textarea id="inputTextArea" placeholder="Enter text or binary"></textarea>
+        <textarea id="outputTextArea" readonly></textarea>
+        <div>
+            <button onclick="convertToBinary()">To Binary</button>
+            <button onclick="convertToText()">To Text</button>
+            <button onclick="copyText()">Copy</button>
+            <button onclick="pasteText()">Paste</button>
+        </div>
+    </div>
+
+    <script>
+        function convertToBinary() {
+            var inputText = document.getElementById("inputTextArea").value;
+            var binary = textToBinary(inputText);
+            document.getElementById("outputTextArea").value = binary;
+        }
+
+        function convertToText() {
+            var binary = document.getElementById("inputTextArea").value;
+            var text = binaryToText(binary);
+            document.getElementById("outputTextArea").value = text;
+        }
+
+        function copyText() {
+            var outputText = document.getElementById("outputTextArea").value;
+            navigator.clipboard.writeText(outputText);
+        }
+
+        async function pasteText() {
+            var clipboardText = await navigator.clipboard.readText();
+            document.getElementById("inputTextArea").value = clipboardText;
+        }
+
+        function textToBinary(text) {
+            return Array.from(text)
+                .map(char => char.charCodeAt(0).toString(2))
+                .join(" ");
+        }
+
+        function binaryToText(binary) {
+            return binary.split(" ")
+                .map(bin => parseInt(bin, 2))
+                .map(charCode => String.fromCharCode(charCode))
+                .join("");
+        }
+    </script>
+</body>
+</html>
